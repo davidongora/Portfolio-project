@@ -1,0 +1,11 @@
+/* Accordion component styles */
+.hidden {
+    display: none;
+  }
+  
+  .rotate-180 {
+    transform: rotate(180deg);
+  }
+  
+  /* Add additional styles as needed */
+  

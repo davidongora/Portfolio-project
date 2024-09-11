@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 
+
 @Component({
   selector: 'app-faqs',
   standalone: true,
@@ -8,5 +9,13 @@ import { Component } from '@angular/core';
   styleUrl: './faqs.component.css'
 })
 export class FaqsComponent {
+  private expandedItemId: string | null = null;
 
+  toggleCollapse(id: string): void {
+    this.expandedItemId = this.expandedItemId === id ? null : id;
+  }
+
+  isExpanded(id: string): boolean {
+    return this.expandedItemId === id;
+  }
 }

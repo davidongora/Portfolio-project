@@ -10,8 +10,14 @@ import { FooterComponent } from './footer/footer.component';
 import { SignupComponent } from './signup/signup.component';
 import { LoginComponent } from './login/login.component';
 import { FaqsComponent } from './faqs/faqs.component';
+import { EmailsComponent } from './emails/emails.component';
+import { LandingComponent } from './landing/landing.component';
 
 const routes: Routes = [
+  {
+    path: '',
+    component: LandingComponent
+  },
   {
     path: 'home',
     component: HeaderComponent
@@ -55,6 +61,10 @@ const routes: Routes = [
   {
     path: 'faqs',
     component: FaqsComponent
+  },
+  {
+    path: 'emails',
+    component: EmailsComponent
   }
 ];
 
