@@ -4,6 +4,11 @@ from django.db import connection
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.hashers import make_password
+from django.core.mail import send_mail
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+
 
 # Create your views here.
 class RegisterUserView(APIView):
@@ -60,3 +65,32 @@ class LoginUserView(APIView):
                 return Response({"detail": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
 
             return Response({"detail": "Login successful"}, status=status.HTTP_200_OK)
+
+
+
+
+@csrf_exempt
+def send_email(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            recipient_email = data.get('recipient_email')
+            subject = data.get('subject')
+            message = data.get('message')
+            
+            if not recipient_email or not subject or not message:
+                return JsonResponse({"error": "All fields are required."}, status=400)
+
+            send_mail(
+                subject,
+                message,
+                'your-email@example.com',  # From email address
+                [recipient_email],
+                fail_silently=False,
+            )
+            return JsonResponse({"success": "Email sent successfully!"}, status=200)
+        
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+    else:
+        return JsonResponse({"error": "Only POST requests are allowed."}, status=405)
