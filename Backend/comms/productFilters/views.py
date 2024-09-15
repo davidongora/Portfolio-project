@@ -28,7 +28,7 @@ class getFilters(APIView):
     def get(self, request):
         with connection.cursor() as cursor:
             try:
-                filters = cursor.execute('''SELECT * FROM product_filters''')
+                cursor.execute('''SELECT * FROM product_filters''')
                 filters_list = cursor.fetchall()
                 return Response(filters_list, status.HTTP_200_OK)
             except Exception as e:
