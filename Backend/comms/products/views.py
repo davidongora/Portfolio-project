@@ -91,48 +91,49 @@ from django.db import connection
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
-@csrf_exempt
-def search_products(request):
-    search_query = request.GET.get('search', '')
-    category = request.GET.get('category', '')
-    gender = request.GET.get('gender', '')
-    size = request.GET.get('size', '')
+# @csrf_exempt
+class search_products(APIView):
+    def get(request):
+        search_query = request.GET.get('search', '')
+        category = request.GET.get('category', '')
+        gender = request.GET.get('gender', '')
+        size = request.GET.get('size', '')
 
-    try:
-        with connection.cursor() as cursor:
-            query = 'SELECT * FROM products WHERE name LIKE %s'
-            params = ['%' + search_query + '%']
+        try:
+            with connection.cursor() as cursor:
+                query = 'SELECT * FROM products WHERE name LIKE %s'
+                params = ['%' + search_query + '%']
 
-            if category:
-                query += ' AND category = %s'
-                params.append(category)
+                if category:
+                    query += ' AND category = %s'
+                    params.append(category)
 
-            if gender:
-                query += ' AND gender = %s'
-                params.append(gender)
+                if gender:
+                    query += ' AND gender = %s'
+                    params.append(gender)
 
-            if size:
-                query += ' AND size = %s'
-                params.append(size)
+                if size:
+                    query += ' AND size = %s'
+                    params.append(size)
 
-            cursor.execute(query, params)
-            rows = cursor.fetchall()
+                cursor.execute(query, params)
+                rows = cursor.fetchall()
 
-            products = [
-                {
-                    "id": row[0],
-                    "name": row[1],
-                    "description": row[2],
-                    "price": row[3],
-                    "category": row[4],
-                    "gender": row[5],
-                    "size": row[6],
-                    "image_url": row[7],
-                    "created_at": row[8]
-                }
-                for row in rows
-            ]
+                products = [
+                    {
+                        "id": row[0],
+                        "name": row[1],
+                        "description": row[2],
+                        "price": row[3],
+                        "category": row[4],
+                        "gender": row[5],
+                        "size": row[6],
+                        "image_url": row[7],
+                        "created_at": row[8]
+                    }
+                    for row in rows
+                ]
 
-            return JsonResponse(products, safe=False)
-    except Exception as e:
-        return JsonResponse({"error": str(e)}, status=500)
+                return JsonResponse(products, safe=False)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
