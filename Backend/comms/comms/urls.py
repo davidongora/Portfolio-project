@@ -35,9 +35,19 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/product/', include('productFilters.urls')),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('swagger-json/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('swagger-yaml/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    
+    # API Endpoints
+    path('api/products/', include('products.urls')),
+    path('api/cart/', include('cart.urls')),
+    path('api/orders/', include('orders.urls')),
+    path('api/order-items/', include('ordersItems.urls')),
+    # path('api/payments/', include('payments.urls')),
+    path('api/product-filters/', include('productFilters.urls')),
+    path('api/users/', include('users.urls')),
+    path('api/wishlist/', include('wishlist.urls')),
+
 
 ]

@@ -110,6 +110,15 @@ DATABASES = {
     }
 }
 
+# Email configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.example.com'  # Your SMTP server address
+EMAIL_PORT = 587  # Typically 587 for TLS, 465 for SSL
+EMAIL_USE_TLS = True  # Use TLS if the SMTP server requires it
+EMAIL_USE_SSL = False  # Set to True if you use SSL
+EMAIL_HOST_USER = 'your-email@example.com'  # Your email address
+EMAIL_HOST_PASSWORD = 'your-email-password'  # Your email password
+DEFAULT_FROM_EMAIL = 'your-email@example.com'  # Default sender address
 
 
 # Password validation
