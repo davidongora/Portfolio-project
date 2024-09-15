@@ -142,6 +142,54 @@ CREATE TABLE product_recommendations (
     FOREIGN KEY (product_id) REFERENCES products(id)
 );
 
+INSERT INTO products (name, description, price, category, gender, size, image_url, stock_quantity)
+VALUES
+-- Clothing (Men)
+('Men\'s T-shirt', 'Comfortable cotton T-shirt', 15.99, 'Clothing', 'Male', 'M', 'image1.jpg', 50),
+('Men\'s Jeans', 'Classic blue jeans', 39.99, 'Clothing', 'Male', 'L', 'image2.jpg', 30),
+('Men\'s Jacket', 'Waterproof sports jacket', 59.99, 'Clothing', 'Male', 'XL', 'image3.jpg', 20),
+('Men\'s Shorts', 'Casual summer shorts', 24.99, 'Clothing', 'Male', 'M', 'image4.jpg', 25),
+('Men\'s Sweater', 'Woolen winter sweater', 45.99, 'Clothing', 'Male', 'L', 'image5.jpg', 15),
+
+-- Clothing (Women)
+('Women\'s Dress', 'Elegant evening dress', 69.99, 'Clothing', 'Female', 'S', 'image6.jpg', 10),
+('Women\'s T-shirt', 'Soft cotton T-shirt', 18.99, 'Clothing', 'Female', 'M', 'image7.jpg', 40),
+('Women\'s Jeans', 'Skinny blue jeans', 42.99, 'Clothing', 'Female', 'L', 'image8.jpg', 35),
+('Women\'s Skirt', 'Floral print skirt', 34.99, 'Clothing', 'Female', 'M', 'image9.jpg', 20),
+('Women\'s Jacket', 'Faux leather jacket', 55.99, 'Clothing', 'Female', 'XL', 'image10.jpg', 12),
+
+-- Clothing (Unisex)
+('Unisex Hoodie', 'Comfortable hoodie for men and women', 49.99, 'Clothing', 'Unisex', 'L', 'image11.jpg', 45),
+('Unisex Tracksuit', 'Stylish tracksuit', 75.99, 'Clothing', 'Unisex', 'M', 'image12.jpg', 25),
+('Unisex Socks', 'Cotton socks pack', 9.99, 'Clothing', 'Unisex', 'L', 'image13.jpg', 100),
+('Unisex Cap', 'Adjustable sports cap', 19.99, 'Clothing', 'Unisex', 'One Size', 'image14.jpg', 60),
+('Unisex Scarf', 'Winter scarf', 14.99, 'Clothing', 'Unisex', 'One Size', 'image15.jpg', 80),
+
+-- Footwear (Men)
+('Men\'s Running Shoes', 'Lightweight running shoes', 85.99, 'Footwear', 'Male', '10', 'image16.jpg', 25),
+('Men\'s Formal Shoes', 'Leather formal shoes', 95.99, 'Footwear', 'Male', '9', 'image17.jpg', 15),
+('Men\'s Sandals', 'Comfortable summer sandals', 25.99, 'Footwear', 'Male', '11', 'image18.jpg', 30),
+
+-- Footwear (Women)
+('Women\'s High Heels', 'Elegant high heels', 89.99, 'Footwear', 'Female', '7', 'image19.jpg', 18),
+('Women\'s Sneakers', 'Casual sneakers', 49.99, 'Footwear', 'Female', '8', 'image20.jpg', 20),
+('Women\'s Boots', 'Stylish leather boots', 110.99, 'Footwear', 'Female', '9', 'image21.jpg', 12),
+
+-- Accessories (Men)
+('Men\'s Wallet', 'Leather bi-fold wallet', 19.99, 'Accessories', 'Male', 'One Size', 'image22.jpg', 70),
+('Men\'s Belt', 'Genuine leather belt', 24.99, 'Accessories', 'Male', 'One Size', 'image23.jpg', 40),
+
+-- Accessories (Women)
+('Women\'s Handbag', 'Luxury leather handbag', 129.99, 'Accessories', 'Female', 'One Size', 'image24.jpg', 10),
+('Women\'s Sunglasses', 'Fashionable sunglasses', 49.99, 'Accessories', 'Female', 'One Size', 'image25.jpg', 30),
+
+-- Accessories (Unisex)
+('Unisex Watch', 'Waterproof digital watch', 79.99, 'Accessories', 'Unisex', 'One Size', 'image26.jpg', 20),
+('Unisex Backpack', 'Durable travel backpack', 55.99, 'Accessories', 'Unisex', 'One Size', 'image27.jpg', 40),
+('Unisex Belt', 'Canvas belt with adjustable buckle', 14.99, 'Accessories', 'Unisex', 'One Size', 'image28.jpg', 50),
+('Unisex Gloves', 'Winter thermal gloves', 19.99, 'Accessories', 'Unisex', 'M', 'image29.jpg', 60),
+('Unisex Sunglasses', 'Polarized sunglasses', 29.99, 'Accessories', 'Unisex', 'One Size', 'image30.jpg', 35);
+
 
 
 -- coupons, Order History
