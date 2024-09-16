@@ -11,6 +11,6 @@ import { Component, Input } from '@angular/core';
 
 export class ButtonsComponent {
   @Input() buttonText: string = 'Button';
-
+  @Input() styling: string = ''
   public description = 'hello'
 }
