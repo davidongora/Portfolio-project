@@ -1,27 +1,28 @@
 <p>footer works!</p>
 
-<div class="flex gap-6 mr-6">
-    <div class="grid">
-        <div class="flex mb-6 gap-4">
-            <img src="" alt="logo">
+<hr class="bg-blue-600 ml-16 m-6 w-[1200px] h-[6px]"> 
+<div class="flex gap-16 mr-6 ml-32">
+    <div class="grid ">
+        <div class="flex mb-6 gap-4 items-center ">
+            <img src="../../../assets/flogo.png " class="w-[50px] h-[50px]" alt="logo">
         <P class="text-3lg font-bold mb-3">FashionForAll</P>
     </div>
         <p>FashionForAll. Vestibulum non est nisl. <br>
              Donec eget sodales nisl. Donec ut velit erat. </p>
-        <p>&copy; All rights reserved.</p>
+        <p class="mt-2">&copy; {{year}}  All rights reserved.</p>
     </div>
-    <div class="flex gap-6">
+    <div class="flex gap-32 ml-24 mt-8 space-y-4">
         <ul>
                 <ng-container *ngFor="let item of items">
-                   <li>{{item}}</li>  
+                   <li class="mt-2">{{item}}</li>  
                 </ng-container>     
                  
         </ul>
         <ul>
             <ng-container *ngFor="let item of footer_items">
-                <li>{{item}}</li>  
+                <li class="mt-2">{{item}}</li>  
              </ng-container> 
-             <p class="text-3xl font-bold">Social Media</p>
+             <p class="text-3lg mt-4 font-bold mb-4">Social Media</p>
              <div class="flex gap-4">
              <img src="" alt="insta">
              <img src="" alt="facebook">

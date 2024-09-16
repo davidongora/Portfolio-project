@@ -10,7 +10,10 @@ import { Component } from '@angular/core';
 })
 export class FooterComponent {
 
-  public items = ['explore', 'Product', 'sell your producerNotifyConsumers', 'Pricing', 'Reviews']
+  public items = ['explore', 'Product', 'sell your producer', 'Notify Consumers', 'Pricing', 'Reviews']
   public footer_items = ['Privacy policy', 'Legal', 'Terms of service', 'Help center']
+
+  date: Date = new Date();
+  year = this.date.getFullYear()
 
 }
