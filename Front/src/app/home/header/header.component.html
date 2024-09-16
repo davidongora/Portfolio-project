@@ -1,23 +1,21 @@
 <p>header works!</p>
 
-<div class="row flex gap-6">
-    <div class="cols-2 text-blue-800 flex ">
-        <img src="" alt="logo">
-        <span class="font-bold text-2xl">FashionForAll</span>
-    </div>
-    <div class="cols-6 flex gap-4">
-        <span>Home</span>
-        <span>Products</span>
-        <span>Contact</span>
-    </div>
-    <div class="quick-icons cols-6 flex gap-4 mr-6 ml-42">
-        <i class="fa fa-search bg-white-600 rounded-full align-items-center p-2 shadow-2xl text-blue-500 text-2xl" aria-hidden="true"></i><span>Search</span>
-        <i class="fa fa-shopping-cart" aria-hidden="true"></i><span>Cart</span>
-        <span>Get started</span>
-        <app-buttons [buttonText]="'Get Started'"></app-buttons>
-    </div>
-    <div class="w-6 h-4 color-black mt-4 mb-4">
-        <hr />
-    </div>
-    <hr />
+<div class="row flex items-center justify-between gap-6 bg-gradient-to-r from-cyan-500 to-blue-500">
+  <div class="cols-2 flex items-center gap-4 text-blue-800 hover:text-white">
+    <img src="../../../assets/flogo.png" class="w-[20px] h-[20px] ml-6" alt="logo">
+    <span class="font-bold text-2xl">FashionForAll</span>
+  </div>
+  
+  <div class="col-6 flex gap-16 ">
+    <span class="cursor-pointer hover:text-white active:text-blue-500 ">Home</span>
+    <span class="cursor-pointer hover:text-white active:text-blue-500 ">Products</span>
+    <span class="cursor-pointer hover:text-white active:text-blue-500 ">Contact</span>
+  </div>
+  
+  <div class="quick-icons flex items-center gap-4 mr-6">
+    <i class="fa fa-search bg-white rounded-full p-2 shadow-2xl text-cyan-500 text-2xl" aria-hidden="true"></i><span>Search</span>
+    <i class="fa fa-shopping-cart bg-white rounded-full p-2 shadow-2xl text-cyan-500 text-2xl" aria-hidden="true"></i><span>Cart</span>
+    <app-buttons [buttonText]="'Get Started'"></app-buttons>
+  </div>
 </div>
+<hr class="w-full my-4 bg-white">
