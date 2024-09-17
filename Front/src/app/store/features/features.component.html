@@ -1,1 +1,64 @@
 <p>features works!</p>
+
+
+<div class="flex">
+    <!-- Filter section on the left -->
+    <div class="w-1/4 mr-6">
+      <app-filter></app-filter>
+    </div>
+  
+    <ng-template #noproducts>
+        <span>No products </span>
+    </ng-template>
+    
+    <!-- Featured section on the right -->
+    
+     
+    <div class="feature w-3/4 mt-12 -ml-6">
+      <div class="grid">
+        <span class="text-center font-bold text-3xl">Our featured store</span>
+  
+        <div class="flex items-center gap-6">
+          <span class="text-center font-bold text-blue-700 text-xl">Ankara styles</span>
+          <span>gender</span>
+          <div class="flex items-center justify-end flex-grow mr-4">
+            <button class="border border-blue-500 text-blue-500 font-bold py-2 px-4 rounded-md bg-transparent focus:outline-none hover:bg-blue-500 hover:text-white transition">
+              Sort by Popular
+            </button>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Product card -->
+      <ng-container>
+        <div class="flex flex-wrap mb-6 ml-8 gap-12 space-y-6">
+          <div *ngFor="let item of pagedProducts" class="product-card mt-6 mx-5 ml-0 w-1/4 shadow-xl rounded-lg relative">
+            <div class="img">
+              <img src="https://via.placeholder.com/300x400" alt="Male Suit" class="product-img w-full h-72 object-cover p-2 pt-2 rounded-lg shadow-xl">
+            </div>
+            <div class="product-info p-4">
+              <h2 class="product-title font-bold text-lg mb-2">{{item.name}}</h2>
+              <p class="product-details text-gray-500 text-sm mb-4">
+                <span class="font-semibold">Gender :</span> {{item.gender}} &middot;
+                <span class="font-semibold">Size:</span> {{item.size}}
+              </p>
+              <p class="product-price font-bold text-lg">KSHS {{item.price}}</p>
+              <div class="absolute right-4 bottom-4 bg-blue-500 text-white p-3 rounded-full shadow-lg">
+                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Pagination Controls -->
+  <div class="flex justify-center mt-6 mb-6">
+    <button *ngFor="let page of [].constructor(totalPages); let i = index" 
+            class="px-4 py-2 mx-2 border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white rounded-md"
+            (click)="changePage(i + 1)">
+      {{ i + 1 }}
+    </button>
+  </div>
+      </ng-container>
+      
+    </div>
+  </div>
+  
