@@ -1,45 +1,58 @@
-<p>features works!</p>
-
-
 <div class="flex">
-    <!-- Filter section on the left -->
-    <div class="w-1/4 mr-6">
-      <app-filter></app-filter>
-    </div>
-  
-    <ng-template #noproducts>
-        <span>No products </span>
-    </ng-template>
-    
-    <!-- Featured section on the right -->
-    
-     
-    <div class="feature w-3/4 mt-12 -ml-6">
-      <div class="grid">
-        <span class="text-center font-bold text-3xl">Our featured store</span>
-  
-        <div class="flex items-center gap-6">
-          <span class="text-center font-bold text-blue-700 text-xl">Ankara styles</span>
-          <span>gender</span>
-          <div class="flex items-center justify-end flex-grow mr-4">
-            <button class="border border-blue-500 text-blue-500 font-bold py-2 px-4 rounded-md bg-transparent focus:outline-none hover:bg-blue-500 hover:text-white transition">
-              Sort by Popular
-            </button>
-          </div>
+  <!-- Filter section on the left -->
+  <div class="w-1/4 mr-6">
+    <app-filter></app-filter>
+  </div>
+
+  <!-- Featured section on the right -->
+  <div class="feature w-3/4 mt-12 -ml-6">
+    <div class="grid">
+      <span class="text-center font-bold text-3xl">Our featured store</span>
+
+      <div class="flex items-center gap-6">
+        <span class="text-center font-bold text-blue-700 text-xl">Ankara styles</span>
+        <span>gender</span>
+        <div class="flex items-center justify-end flex-grow mr-4">
+          <button class="border border-blue-500 text-blue-500 font-bold py-2 px-4 rounded-md bg-transparent focus:outline-none hover:bg-blue-500 hover:text-white transition">
+            Sort by Popular
+          </button>
         </div>
       </div>
-  
-      <!-- Product card -->
-      <ng-container>
-        <div class="flex flex-wrap mb-6 ml-8 gap-12 space-y-6">
-          <div *ngFor="let item of pagedProducts" class="product-card mt-6 mx-5 ml-0 w-1/4 shadow-xl rounded-lg relative">
+    </div>
+
+    <!-- Loading or No Products -->
+    <p *ngIf="isLoading; else availableproducts">
+      <ng-template #loading>
+        <span>Loading...</span>
+        <button type="button" class="bg-indigo-500 text-white px-4 py-2 rounded">
+          <svg class="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
+            <!-- SVG content for spinner -->
+          </svg>
+          Loading...
+        </button>
+      </ng-template>
+    </p>
+
+    <!-- No Products Available Message -->
+    <ng-template #availableproducts>
+      <ng-container *ngIf="!products.length; else productGrid">
+        <span>No products available</span>
+      </ng-container>
+    </ng-template>
+
+      <!-- Product Grid -->
+      <ng-template #productGrid>
+        <div class="flex flex-wrap gap-12 space-y-6">
+          <ng-container *ngFor="let item of pagedProducts">
+            <div  class="product-card mt-6 w-1/4 shadow-xl rounded-lg relative"
+               (click)="openDialog(productGridShow, item)">
             <div class="img">
-              <img src="https://via.placeholder.com/300x400" alt="Male Suit" class="product-img w-full h-72 object-cover p-2 pt-2 rounded-lg shadow-xl">
+              <img src="https://via.placeholder.com/300x400" alt="{{item.name}}" class="product-img w-full h-72 object-cover p-2 pt-2 rounded-lg shadow-xl">
             </div>
             <div class="product-info p-4">
               <h2 class="product-title font-bold text-lg mb-2">{{item.name}}</h2>
               <p class="product-details text-gray-500 text-sm mb-4">
-                <span class="font-semibold">Gender :</span> {{item.gender}} &middot;
+                <span class="font-semibold">Gender:</span> {{item.gender}} &middot;
                 <span class="font-semibold">Size:</span> {{item.size}}
               </p>
               <p class="product-price font-bold text-lg">KSHS {{item.price}}</p>
@@ -48,17 +61,51 @@
               </div>
             </div>
           </div>
+
+          <ng-template #productGridShow>
+            <div mat-dialog-content>
+              <div class="flex flex-col w-auto h-auto">
+                <!-- Product Image -->
+                <div class="img">
+                  <img [src]="item.image || 'https://via.placeholder.com/300x400'" alt="{{item.name}}" class="product-img w-full h-72 object-cover p-2 pt-2 rounded-lg shadow-xl">
+                </div>
+          
+                <!-- Product Info -->
+                <div class="product-info p-4">
+                  <h2 class="product-title font-bold text-lg mb-2">{{item.name}}</h2>
+                  <p class="product-details text-gray-500 text-sm mb-4">
+                    <span class="font-semibold">Gender:</span> {{item.gender}} &middot;
+                    <span class="font-semibold">Size:</span> {{item.size}}
+                  </p>
+          
+                  <!-- Action Buttons (Add to Cart and Pay Now) -->
+                  <div class="flex gap-6">
+                    <button mat-button (click)="closeDialog()">Add To Cart</button>
+                    <button (click)="closeDialog()" class="bg-blue-600 p-2 rounded-xl font-bold text-white">{{item.price}} Pay Now</button>
+                  </div>
+                </div>
+          
+                <!-- Close Button (mat-dialog-actions) -->
+                <div mat-dialog-actions class="p-4 flex justify-end">
+                  <button class="bg-red-500 p-2 rounded-xl text-white" (click)="closeDialog()">Close</button>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+          
+          
+          </ng-container>
         </div>
-        <!-- Pagination Controls -->
-  <div class="flex justify-center mt-6 mb-6">
-    <button *ngFor="let page of [].constructor(totalPages); let i = index" 
-            class="px-4 py-2 mx-2 border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white rounded-md"
-            (click)="changePage(i + 1)">
-      {{ i + 1 }}
-    </button>
+
+        
+      </ng-template>
+      <!-- Pagination Controls -->
+      <div class="flex justify-center mt-6 mb-6">
+        <button *ngFor="let page of [].constructor(totalPages); let i = index"
+                class="px-4 py-2 mx-2 border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white rounded-md"
+                (click)="changePage(i + 1)">
+          {{ i + 1 }}
+        </button>
+      </div>
   </div>
-      </ng-container>
-      
-    </div>
-  </div>
-  
+</div>
