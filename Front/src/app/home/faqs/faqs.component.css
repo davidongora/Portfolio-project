@@ -1,11 +1,19 @@
-/* Accordion component styles */
-.hidden {
-    display: none;
-  }
-  
-  .rotate-180 {
-    transform: rotate(180deg);
-  }
-  
-  /* Add additional styles as needed */
-  
+.accordion {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.accordion-header {
+  cursor: pointer;
+  background: #f1f1f1;
+  padding: 10px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.accordion-content {
+  padding: 10px;
+}
