@@ -15,12 +15,8 @@ import { LandingComponent } from './landing/landing.component';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'landing',
     component: LandingComponent
-  },
-  {
-    path: 'home',
-    component: HeaderComponent
   },
   {
     path: 'info',
