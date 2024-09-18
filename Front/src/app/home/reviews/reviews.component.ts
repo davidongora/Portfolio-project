@@ -1,53 +1,20 @@
-import { Component } from '@angular/core';
-import { ButtonsComponent } from '../buttons/buttons.component';
-import { FormsModule } from '@angular/forms';
-import { CommonModule, NgFor } from '@angular/common';
+import { NgFor } from '@angular/common';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'app-reviews',
   standalone: true,
-  imports: [ButtonsComponent, FormsModule, NgFor, CommonModule],
+  imports: [NgFor],
   templateUrl: './reviews.component.html',
-  styleUrl: './reviews.component.css'
 })
 export class ReviewsComponent {
-  slides = [0, 1, 2]; // Placeholder for slide data
-  currentIndex = 0;
-  translateX = '0%';
-  dots = [0, 1, 2]; // Number of dots based on slides
-  intervalId: any;
+  reviews = [
+    { message: "Great product! Highly recommend.", author: "John Doe" },
+    { message: "Fantastic customer service.", author: "Jane Smith" },
+    { message: "Will definitely come back again.", author: "Alice Johnson" },
+    // Add more reviews as needed
+  ];
 
-  ngOnInit(): void {
-    this.startAutoSlide();
-  }
 
-  ngOnDestroy(): void {
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
-    }
-  }
-
-  startAutoSlide() {
-    this.intervalId = setInterval(() => {
-      this.nextSlide();
-    }, 15000); // 15 seconds
-  }
-
-  goToSlide(index: number) {
-    this.currentIndex = index;
-    this.translateX = `-${index * 100}%`;
-    this.resetInterval();
-  }
-
-  nextSlide() {
-    this.currentIndex = (this.currentIndex + 1) % this.slides.length;
-    this.translateX = `-${this.currentIndex * 100}%`;
-  }
-
-  resetInterval() {
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
-    }
-    this.startAutoSlide();
-  }
+ 
 }
