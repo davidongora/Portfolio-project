@@ -1,21 +1,98 @@
 <p>header works!</p>
 
-<div class="row flex items-center justify-between gap-6 bg-gradient-to-r from-cyan-500 to-blue-500">
+<div class="row flex items-center justify-between gap-6 bg-gradient-to-r from-cyan-500 to-blue-500 p-4">
   <div class="cols-2 flex items-center gap-4 text-blue-800 hover:text-white">
     <img src="../../../assets/flogo.png" class="w-[20px] h-[20px] ml-6" alt="logo">
     <span class="font-bold text-2xl">FashionForAll</span>
   </div>
   
-  <div class="col-6 flex gap-16 ">
+  <div class="col-6 flex gap-16 items-center ">
+    
     <span class="cursor-pointer hover:text-white active:text-blue-500 ">Home</span>
     <span class="cursor-pointer hover:text-white active:text-blue-500 ">Products</span>
-    <span class="cursor-pointer hover:text-white active:text-blue-500 ">Contact</span>
+    <!-- <span class="cursor-pointer hover:text-white active:text-blue-500 ">Contact</span> -->
+    <div class="relative group">
+      <span class="cursor-pointer hover:text-white active:text-blue-500">Contact</span>
+    
+      <div class="absolute left-0 mt-2 w-48 p-4 bg-gray-800 text-white rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden group-hover:block">
+        <p>Email: contactexample.com</p>
+        <p>Phone: +123456789</p>
+      </div>
+    </div>
+    <!-- <button class="bg-blue-600 text-white p-2" (click)="openDialog($event,loginModal)">login</button>
+    <button class="bg-blue-600 text-white p-2" (click)="openDialog($event,Signup)">Signup</button> -->
+
+
+    
   </div>
   
   <div class="quick-icons flex items-center gap-4 mr-6">
-    <i class="fa fa-search bg-white rounded-full p-2 shadow-2xl text-cyan-500 text-2xl" aria-hidden="true"></i><span>Search</span>
+    <!-- <i class="fa fa-search bg-white rounded-full p-2 shadow-2xl text-cyan-500 text-2xl" aria-hidden="true"></i><span>Search</span> -->
     <i class="fa fa-shopping-cart bg-white rounded-full p-2 shadow-2xl text-cyan-500 text-2xl" aria-hidden="true"></i><span>Cart</span>
-    <app-buttons [buttonText]="'Get Started'"></app-buttons>
+    <!-- <app-buttons [buttonText]="'Get Started'" (click)="loginModal"></app-buttons> -->
+    <!-- <button class="bg-blue-600 text-white p-2" (click)="openDialog($event,loginModal)">Open Dialog</button> -->
+
+
+    
+    <button class="bg-blue-600 text-white p-2" (click)="openDialog($event,loginModal)">login</button>
+    <button class="bg-blue-600 text-white p-2" (click)="openDialog($event,Signup)">Signup</button>
+
+
   </div>
 </div>
 <hr class="w-full my-4 bg-white">
+
+<ng-template #Signup let-dialogRef="dialogRef">
+  <div class="modal-header px-4 pt-4">
+    <h5 class="modal-title">Sign Up</h5>
+    <hr>
+  </div>
+
+  <div class="modal-body p-4">
+    <form #signupForm="">
+      <div class="mb-4">
+        <label for="name" class="block">Name:</label>
+        <input type="text" id="name" name="name" ngModel class="border rounded p-2 w-full" placeholder="Enter your name">
+      </div>
+      <div class="mb-4">
+        <label for="number" class="block">Number:</label>
+        <input type="tel" id="number" name="number" ngModel class="border rounded p-2 w-full" placeholder="Enter your number">
+      </div>
+      <div class="mb-4">
+        <label for="email" class="block">Email:</label>
+        <input type="email" id="email" name="email" ngModel class="border rounded p-2 w-full" placeholder="Enter your email">
+      </div>
+    </form>
+  </div>
+
+  <div class="flex justify-between px-4 py-2">
+    <button mat-button (click)="closeDialog(dialogRef)" class="bg-red-500 text-white px-4 py-2 rounded">Close</button>
+    <button mat-button class="bg-green-500 text-white px-4 py-2 rounded">Submit</button>
+  </div>
+</ng-template>
+
+
+<ng-template #loginModal let-dialogRef="dialogRef">
+  <div class="modal-header px-4 pt-4">
+    <h5 class="modal-title">Login</h5>
+    <hr>
+  </div>
+
+  <div class="modal-body p-4">
+    <form #loginForm="">
+      <div class="mb-4">
+        <label for="email" class="block">Email:</label>
+        <input type="email" id="email" name="email" ngModel class="border rounded p-2 w-full" placeholder="Enter your email">
+      </div>
+      <div class="mb-4">
+        <label for="password" class="block">Password:</label>
+        <input type="password" id="password" name="password" ngModel class="border rounded p-2 w-full" placeholder="Enter your password">
+      </div>
+    </form>
+  </div>
+
+  <div class="flex justify-between px-4 py-2">
+    <button mat-button (click)="closeDialog(dialogRef)" class="bg-red-500 text-white px-4 py-2 rounded">Close</button>
+    <button mat-button class="bg-blue-500 text-white px-4 py-2 rounded">Login</button>
+  </div>
+</ng-template>
