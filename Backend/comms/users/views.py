@@ -8,23 +8,32 @@ from django.core.mail import send_mail
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
-
+from django.contrib.auth.hashers import check_password
+from django.contrib.auth import authenticate
+from rest_framework.authtoken.models import Token
+from django.contrib.auth import login
+from rest_framework_simplejwt.tokens import RefreshToken
 
 # Create your views here.
 class RegisterUserView(APIView):
     def post(self, request):
-        username = request.POST.get('username')
+        
+        username = first_name + last_name
         email = request.POST.get('email')
         password = request.POST.get('password')
         first_name = request.POST.get('first_name', '')
         last_name = request.POST.get('last_name', '')
         phone_number = request.POST.get('phone_number', '')
-        gender = request.POST.get('gender', '')
 
-        if not all([username, email, password]):
-            return Response({"detail": "Missing required fields"}, status=status.HTTP_400_BAD_REQUEST)
+        if not all([username]):
+            return Response({"detail": "Missing username required fields"}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Check if username or email already exists
+        if not all([email]):
+                    return Response({"detail": "Missing email required fields"}, status=status.HTTP_400_BAD_REQUEST)
+
+        if not all([ password]):
+                    return Response({"detail": "Missing  password required fields"}, status=status.HTTP_400_BAD_REQUEST)
+
         with connection.cursor() as cursor:
             cursor.execute("SELECT COUNT(*) FROM users WHERE username = %s", [username])
             if cursor.fetchone()[0] > 0:
@@ -35,56 +44,71 @@ class RegisterUserView(APIView):
                 return Response({"detail": "Email already exists"}, status=status.HTTP_400_BAD_REQUEST)
 
             hashed_password = make_password(password)
-            cursor.execute('''INSERT INTO users (username, email, password, first_name, last_name, phone_number, gender) 
-                              VALUES (%s, %s, %s, %s, %s, %s, %s)''',
-                           [username, email, hashed_password, first_name, last_name, phone_number, gender])
+            cursor.execute('''INSERT INTO users (username, email, password, first_name, last_name, phone_number) 
+                              VALUES (%s, %s, %s, %s, %s, %s)''',
+                           [username, email, hashed_password, first_name, last_name, phone_number])
+            subject = "Welcome to Our Platform"
+            message = f"Hi {first_name},\n\nThank you for registering! Feel free to shop and explore our platform."
+            send_mail(
+                subject,
+                message,
+                'ongoradavid5@gmail.com', 
+                [email],  
+                fail_silently=False,
+            )
             return Response({"detail": "User registered successfully"}, status=status.HTTP_201_CREATED)
 
-    
-    
-from django.contrib.auth.hashers import check_password
 
 class LoginUserView(APIView):
-    def post(self, request):
+    def get(self, request):
         username = request.GET.get('username')
         password = request.GET.get('password')
 
         if not username or not password:
             return Response({"detail": "Username and password are required"}, status=status.HTTP_400_BAD_REQUEST)
 
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT password FROM users WHERE username = %s", [username])
-            result = cursor.fetchone()
-            
-            if result is None:
-                return Response({"detail": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
-            
-            stored_password = result[0]
-            
-            if not check_password(password, stored_password):
-                return Response({"detail": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
-
-            return Response({"detail": "Login successful"}, status=status.HTTP_200_OK)
-
-
-
-
-@csrf_exempt
-def send_email(request):
-    if request.method == 'POST':
         try:
-            data = json.loads(request.body)
-            recipient_email = data.get('recipient_email')
-            subject = data.get('subject')
-            message = data.get('message')
-            
+            with connection.cursor() as cursor:
+                # Fetch user record by username
+                cursor.execute("SELECT id, email, password FROM users WHERE username = %s", [username])
+                result = cursor.fetchone()
+
+                if result is None:
+                    return Response({"detail": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
+
+                # Unpack the result
+                user_id, email, stored_password = result
+
+                # Check if the provided password matches the stored password
+                if not check_password(password, stored_password):
+                    return Response({"detail": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
+
+                # Clear any existing session before setting a new one
+                request.session.flush()
+
+                # Store user_id in session
+                request.session['user_id'] = user_id  # This stores the user_id in the session
+                return Response({"detail": "Login successful", "user_id": user_id, "email": email}, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        
+class SendEmail(APIView):
+    def post(self, request):
+        try:
+            recipient_email = request.POST.get('recipient_email')
+            subject = request.POST.get('subject')
+            message = request.POST.get('message')
+
+            # Check if required fields are present
             if not recipient_email or not subject or not message:
                 return JsonResponse({"error": "All fields are required."}, status=400)
 
             send_mail(
                 subject,
                 message,
-                'your-email@example.com',  # From email address
+                'ongoradavid5@gmail.com',  # Sender email address
                 [recipient_email],
                 fail_silently=False,
             )
@@ -92,5 +116,3 @@ def send_email(request):
         
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=500)
-    else:
-        return JsonResponse({"error": "Only POST requests are allowed."}, status=405)

@@ -18,6 +18,7 @@ from rest_framework import permissions
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+from django.conf import settings
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -73,6 +74,8 @@ MIDDLEWARE = [
     
 ]
 
+
+
 ROOT_URLCONF = 'comms.urls'
 
 TEMPLATES = [
@@ -93,7 +96,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'comms.wsgi.application'
 
+# Set session to expire after the user closes the browser
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
+# Optionally, set the session timeout duration (in seconds)
+SESSION_COOKIE_AGE = 3600  # 1 hour
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
@@ -101,24 +108,27 @@ WSGI_APPLICATION = 'comms.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': 'ecommerce_db',
-        'USER': 'root', 
-        'PASSWORD': '',
+        'USER': 'davie', 
+        'PASSWORD': "root",
         'HOST': '127.0.0.1',   # 127.0.0.1
         'PORT': '3306',     # 3306
     }
 }
+# print(settings.DATABASES, 'prrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr')
 
 # Email configuration
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.example.com'  # Your SMTP server address
+EMAIL_HOST = 'smtp.gmail.com'  # Your SMTP server address
 EMAIL_PORT = 587  # Typically 587 for TLS, 465 for SSL
 EMAIL_USE_TLS = True  # Use TLS if the SMTP server requires it
 EMAIL_USE_SSL = False  # Set to True if you use SSL
-EMAIL_HOST_USER = 'your-email@example.com'  # Your email address
-EMAIL_HOST_PASSWORD = 'your-email-password'  # Your email password
-DEFAULT_FROM_EMAIL = 'your-email@example.com'  # Default sender address
+EMAIL_HOST_USER = 'ongoradavid5@gmail.com'  # Your email address
+EMAIL_HOST_PASSWORD = 'vapbexbbmyqfumdr '  # Your email password
+DEFAULT_FROM_EMAIL = 'ongoradavid5@gmail.com'  # Default sender address
+
+
 
 
 # Password validation

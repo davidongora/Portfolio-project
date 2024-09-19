@@ -5,6 +5,28 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.db import connection
 
+# from django.db import connection
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
+
+class ShowTables(APIView):
+    def get(self, request):
+        try:
+            with connection.cursor() as cursor:
+                # SQLite-specific query to list tables
+                cursor.execute("SHOW TABLES;")
+                tables = cursor.fetchall()  # Fetch all the results
+                
+                # Format the tables into a list
+                table_list = [table[0] for table in tables]
+                
+                return Response({"tables": table_list}, status=status.HTTP_200_OK)
+                
+        except Exception as e:
+            return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 class ListProductsView(APIView):
     def get(self, request):
@@ -87,9 +109,6 @@ class ProductDetailView(APIView):
         except Exception as e:
             return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
-from django.db import connection
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 
 # @csrf_exempt
 class search_products(APIView):

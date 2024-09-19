@@ -7,19 +7,36 @@ from rest_framework import status
 # Create your views here.
 class AddToCartView(APIView):
     def post(self, request):
-        user_id = request.data.get('user_id')
-        product_id = request.data.get('product_id')
-        quantity = request.data.get('quantity', 1)
+        user_id = request.POST.get('user_id')
+        product_id = request.POST.get('product_id')
+        quantity = request.POST.get('quantity', 1)
 
-        if not all([user_id, product_id, quantity]):
-            return Response({"detail": "Missing required fields"}, status=status.HTTP_400_BAD_REQUEST)
+        # Validate required fields
+        if not user_id:
+            return Response({"detail": "Missing user_id"}, status=status.HTTP_400_BAD_REQUEST)
+        if not product_id:
+            return Response({"detail": "Missing product_id"}, status=status.HTTP_400_BAD_REQUEST)
+        if not quantity:
+            return Response({"detail": "Missing quantity"}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
             with connection.cursor() as cursor:
+                # Check if user exists
+                cursor.execute("SELECT id FROM users WHERE id = %s", [user_id])
+                user_exists = cursor.fetchone()
+                if not user_exists:
+                    return Response({"detail": "Invalid user_id"}, status=status.HTTP_400_BAD_REQUEST)
+                
+                # Check if product exists (assuming a product check is also needed)
+                cursor.execute("SELECT id FROM products WHERE id = %s", [product_id])
+                product_exists = cursor.fetchone()
+                if not product_exists:
+                    return Response({"detail": "Invalid product_id"}, status=status.HTTP_400_BAD_REQUEST)
+
                 # Check if the product is already in the user's cart
                 cursor.execute("SELECT id FROM shopping_cart WHERE user_id = %s AND product_id = %s", [user_id, product_id])
                 result = cursor.fetchone()
-                
+
                 if result:
                     # Update the quantity if item already exists
                     cursor.execute("UPDATE shopping_cart SET quantity = quantity + %s WHERE id = %s", [quantity, result[0]])
@@ -27,16 +44,16 @@ class AddToCartView(APIView):
                     # Add new item to the cart
                     cursor.execute("INSERT INTO shopping_cart (user_id, product_id, quantity) VALUES (%s, %s, %s)",
                                    [user_id, product_id, quantity])
-                
+
                 return Response({"detail": "Item added to cart successfully"}, status=status.HTTP_201_CREATED)
         except Exception as e:
             return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-
-
+        
+        
 class UpdateCartView(APIView):
     def post(self, request):
-        cart_id = request.data.get('cart_id')
-        quantity = request.data.get('quantity')
+        cart_id = request.POST.get('cart_id')
+        quantity = request.POST.get('quantity')
 
         if not all([cart_id, quantity]):
             return Response({"detail": "Missing required fields"}, status=status.HTTP_400_BAD_REQUEST)
@@ -50,7 +67,7 @@ class UpdateCartView(APIView):
 
 class RemoveFromCartView(APIView):
     def post(self, request):
-        cart_id = request.data.get('cart_id')
+        cart_id = request.POST.get('cart_id')
 
         if not cart_id:
             return Response({"detail": "Cart ID is required"}, status=status.HTTP_400_BAD_REQUEST)
