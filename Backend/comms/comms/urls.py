@@ -36,8 +36,14 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    path('swagger-json/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    path('swagger-yaml/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    # path('swagger.json./', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    # path('swagger-yaml/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    # Swagger JSON
+    path('swagger-json/', schema_view.without_ui(cache_timeout=0), name='schema-swagger-json'),
+
+    # Swagger YAML
+    # path('swagger-yaml/', schema_view.without_ui(renderer_classes=[openapi.renderers.OpenAPIRenderer, openapi.renderers.YAMLOpenAPIRenderer]), name='schema-swagger-yaml'),
+
     
     # API Endpoints
     path('api/products/', include('products.urls')),

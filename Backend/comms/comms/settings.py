@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'corsheaders',
     'drf_yasg',
-    'rest_framework_simplejwt'
+    'rest_framework_simplejwt',
+    'comms'
 ]
 
 SWAGGER_SETTINGS = {
