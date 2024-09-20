@@ -18,12 +18,16 @@ from rest_framework_simplejwt.tokens import RefreshToken
 class RegisterUserView(APIView):
     def post(self, request):
         
-        username = first_name + last_name
-        email = request.POST.get('email')
+        
+        email = request.POST.get('email', 'hj@gmail.com')
         password = request.POST.get('password')
         first_name = request.POST.get('first_name', '')
         last_name = request.POST.get('last_name', '')
         phone_number = request.POST.get('phone_number', '')
+        myName = last_name + first_name
+        username = request.POST.get('username',  {myName})
+        print (username)
+        
 
         if not all([username]):
             return Response({"detail": "Missing username required fields"}, status=status.HTTP_400_BAD_REQUEST)
