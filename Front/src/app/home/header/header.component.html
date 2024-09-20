@@ -1,4 +1,4 @@
-<p>header works!</p>
+<!-- <p>header works!</p> -->
 
 <div class="row flex items-center justify-between gap-6 bg-gradient-to-r from-cyan-500 to-blue-500 p-4">
   <div class="cols-2 flex items-center gap-4 text-blue-800 hover:text-white">
@@ -9,7 +9,7 @@
   <div class="col-6 flex gap-16 items-center ">
     
     <span class="cursor-pointer hover:text-white active:text-blue-500 ">Home</span>
-    <span class="cursor-pointer hover:text-white active:text-blue-500 ">Products</span>
+    <span class="cursor-pointer hover:text-white active:text-blue-500 ">My Orders</span>
     <!-- <span class="cursor-pointer hover:text-white active:text-blue-500 ">Contact</span> -->
     <div class="relative group">
       <span class="cursor-pointer hover:text-white active:text-blue-500">Contact</span>
@@ -45,54 +45,131 @@
 <ng-template #Signup let-dialogRef="dialogRef">
   <div class="modal-header px-4 pt-4">
     <h5 class="modal-title">Sign Up</h5>
-    <hr>
+    <hr />
   </div>
 
   <div class="modal-body p-4">
-    <form #signupForm="">
+    <form #signupForm="ngForm" (ngSubmit)="onRegister(signupForm, dialogRef)">
       <div class="mb-4">
-        <label for="name" class="block">Name:</label>
-        <input type="text" id="name" name="name" ngModel class="border rounded p-2 w-full" placeholder="Enter your name">
+        <label for="first_name" class="block">First Name:</label>
+        <input
+          type="text"
+          id="first_name"
+          name="first_name"
+          ngModel
+          class="border rounded p-2 w-full"
+          placeholder="Enter your first name"
+          required
+        />
+      </div>
+      <div class="mb-4">
+        <label for="last_name" class="block">Last Name:</label>
+        <input
+          type="text"
+          id="last_name"
+          name="last_name"
+          ngModel
+          class="border rounded p-2 w-full"
+          placeholder="Enter your last name"
+          required
+        />
       </div>
       <div class="mb-4">
         <label for="number" class="block">Number:</label>
-        <input type="tel" id="number" name="number" ngModel class="border rounded p-2 w-full" placeholder="Enter your number">
+        <input
+          type="tel"
+          id="number"
+          name="number"
+          ngModel
+          class="border rounded p-2 w-full"
+          placeholder="Enter your number"
+          required
+        />
       </div>
       <div class="mb-4">
         <label for="email" class="block">Email:</label>
-        <input type="email" id="email" name="email" ngModel class="border rounded p-2 w-full" placeholder="Enter your email">
+        <input
+          type="email"
+          id="email"
+          name="email"
+          ngModel
+          class="border rounded p-2 w-full"
+          placeholder="Enter your email"
+          required
+        />
+      </div>
+      <div class="mb-4">
+        <label for="password" class="block">Password:</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          ngModel
+          class="border rounded p-2 w-full"
+          placeholder="Enter your password"
+          required
+        />
+      </div>
+      <div class="flex justify-between px-4 py-2">
+        <button
+          mat-button
+          (click)="closeDialog(dialogRef)"
+          class="bg-red-500 text-white px-4 py-2 rounded"
+        >
+          Close
+        </button>
+        <button mat-button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">
+          Submit
+        </button>
       </div>
     </form>
   </div>
-
-  <div class="flex justify-between px-4 py-2">
-    <button mat-button (click)="closeDialog(dialogRef)" class="bg-red-500 text-white px-4 py-2 rounded">Close</button>
-    <button mat-button class="bg-green-500 text-white px-4 py-2 rounded">Submit</button>
-  </div>
 </ng-template>
-
 
 <ng-template #loginModal let-dialogRef="dialogRef">
   <div class="modal-header px-4 pt-4">
     <h5 class="modal-title">Login</h5>
-    <hr>
+    <hr />
   </div>
 
   <div class="modal-body p-4">
-    <form #loginForm="">
+    <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm, dialogRef)">
       <div class="mb-4">
         <label for="email" class="block">Email:</label>
-        <input type="email" id="email" name="email" ngModel class="border rounded p-2 w-full" placeholder="Enter your email">
+        <input
+          type="email"
+          id="email"
+          name="email"
+          ngModel
+          class="border rounded p-2 w-full"
+          placeholder="Enter your email"
+          required
+        />
       </div>
       <div class="mb-4">
         <label for="password" class="block">Password:</label>
-        <input type="password" id="password" name="password" ngModel class="border rounded p-2 w-full" placeholder="Enter your password">
+        <input
+          type="password"
+          id="password"
+          name="password"
+          ngModel
+          class="border rounded p-2 w-full"
+          placeholder="Enter your password"
+          required
+        />
+      </div>
+      <div class="flex justify-between px-4 py-2">
+        <button
+          mat-button
+          (click)="closeDialog(dialogRef)"
+          class="bg-red-500 text-white px-4 py-2 rounded"
+        >
+          Close
+        </button>
+        <button mat-button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">
+          Login
+        </button>
       </div>
     </form>
-  </div>
-
-  <div class="flex justify-between px-4 py-2">
-    <button mat-button (click)="closeDialog(dialogRef)" class="bg-red-500 text-white px-4 py-2 rounded">Close</button>
-    <button mat-button class="bg-blue-500 text-white px-4 py-2 rounded">Login</button>
   </div>
 </ng-template>

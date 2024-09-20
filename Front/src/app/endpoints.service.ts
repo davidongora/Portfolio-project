@@ -25,7 +25,8 @@ export class EndpointsService   {
     // CART
     ADD_TO_CART: `${this.apiUrl}${EndpointsService.CART_MAIN_CONTEXT}/add`,
     REMOVE_FROM_CART: `${this.apiUrl}${EndpointsService.CART_MAIN_CONTEXT}/remove`,
-    GET_CART_ITEMS: `${this.apiUrl}${EndpointsService.CART_MAIN_CONTEXT}/items`,
+    GET_CART_ITEMS: `${this.apiUrl}${EndpointsService.CART_MAIN_CONTEXT}/view`,
+    UPDATE_CART_ITEMS: `${this.apiUrl}${EndpointsService.CART_MAIN_CONTEXT}/update`,
 
     // ORDER ITEMS
     ADD_ORDER_ITEM: `${this.apiUrl}${EndpointsService.ORDER_ITEMS_MAIN_CONTEXT}/add`,
@@ -33,8 +34,10 @@ export class EndpointsService   {
 
     // ORDERS
     CREATE_ORDER: `${this.apiUrl}${EndpointsService.ORDER_MAIN_CONTEXT}/create`,
-    GET_ORDERS: `${this.apiUrl}${EndpointsService.ORDER_MAIN_CONTEXT}/all`,
+    GET_ORDERS: `${this.apiUrl}${EndpointsService.ORDER_MAIN_CONTEXT}/list`,
+    GET_ORDERS_DETAILS: `${this.apiUrl}${EndpointsService.ORDER_MAIN_CONTEXT}/details`,
 
+    
     // PRODUCT FILTERS
     GET_PRODUCT_FILTERS: `${this.apiUrl}${EndpointsService.PRODUCT_FILTERS_MAIN_CONTEXT}`,
 
@@ -43,12 +46,9 @@ export class EndpointsService   {
     GET_PRODUCT_DETAILS: `${this.apiUrl}${EndpointsService.PRODUCTS_MAIN_CONTEXT}/details`,
 
     // USER
-    LOGIN_USER: `${this.apiUrl}${EndpointsService.USER_MAIN_CONTEXT}/login`,
-    REGISTER_USER: `${this.apiUrl}${EndpointsService.USER_MAIN_CONTEXT}/register`,
+    LOGIN_USER: `${this.apiUrl}${EndpointsService.USER_MAIN_CONTEXT}/login/`,
+    REGISTER_USER: `${this.apiUrl}${EndpointsService.USER_MAIN_CONTEXT}/register/`,
 
-    // WISHLIST
-    ADD_TO_WISHLIST: `${this.apiUrl}${EndpointsService.WISHLIST_MAIN_CONTEXT}/add`,
-    REMOVE_FROM_WISHLIST: `${this.apiUrl}${EndpointsService.WISHLIST_MAIN_CONTEXT}/remove`,
-    GET_WISHLIST_ITEMS: `${this.apiUrl}${EndpointsService.WISHLIST_MAIN_CONTEXT}/items`
+    
   };
 }
