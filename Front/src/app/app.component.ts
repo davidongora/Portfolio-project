@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+// import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -13,6 +15,41 @@ import { HttpClientModule } from '@angular/common/http';
   styleUrl: './app.component.css'
   
 })
+// export class AppComponent {
+//   title = 'hello';
+// }
+
+// @Component({
+//   selector: 'app-root',
+//   standalone: true,
+//   styleUrls: ['./app.component.css']
+// })
 export class AppComponent {
-  title = 'hello';
+  deferredPrompt: any;
+
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) { }
+
+  ngOnInit() {
+    if (isPlatformBrowser(this.platformId)) {  // Ensure it's running in the browser
+      window.addEventListener('beforeinstallprompt', (event) => {
+        event.preventDefault();
+        this.deferredPrompt = event;
+        console.log('Install prompt saved to be triggered later.');
+      });
+    }
+  }
+
+  showInstallPrompt() {
+    if (this.deferredPrompt) {
+      this.deferredPrompt.prompt();
+      this.deferredPrompt.userChoice.then((choiceResult: any) => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('User accepted the install prompt');
+        } else {
+          console.log('User dismissed the install prompt');
+        }
+        this.deferredPrompt = null;
+      });
+    }
+  }
 }

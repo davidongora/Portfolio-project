@@ -13,14 +13,16 @@ from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import login
 from rest_framework_simplejwt.tokens import RefreshToken
+from webpush import send_user_notification
+
 
 # Create your views here.
 class RegisterUserView(APIView):
     def post(self, request):
         
         
-        email = request.POST.get('email', 'hj@gmail.com')
-        password = request.POST.get('password')
+        email = request.POST.get('email', 'hj1@gmail.com')
+        password = request.POST.get('password', '1')
         first_name = request.POST.get('first_name', '')
         last_name = request.POST.get('last_name', '')
         phone_number = request.POST.get('phone_number', '')
@@ -59,7 +61,22 @@ class RegisterUserView(APIView):
                 'ongoradavid5@gmail.com', 
                 [email],  
                 fail_silently=False,
+                
             )
+            
+            # Send Push Notification
+            subscription_info = request.POST.get("subscription")
+            if subscription_info:
+                payload = {
+                    "head": "Welcome!",
+                    "body": f"Hi {first_name}, welcome to our platform!"
+                }
+
+                try:
+                    send_user_notification(user=request.user, payload=payload, ttl=1000, subscription_info=subscription_info)
+                except Exception as e:
+                    print(f"Failed to send push notification: {str(e)}")
+                    
             return Response({"detail": "User registered successfully"}, status=status.HTTP_201_CREATED)
 
 
@@ -92,6 +109,18 @@ class LoginUserView(APIView):
 
                 # Store user_id in session
                 request.session['user_id'] = user_id  # This stores the user_id in the session
+                # Send Push Notification
+            subscription_info = request.POST.get("subscription")
+            if subscription_info:
+                payload = {
+                    "head": "Welcome!",
+                    "body": f"Hi {username}, welcome to our platform!"
+                }
+
+                try:
+                    send_user_notification(user=request.user, payload=payload, ttl=1000, subscription_info=subscription_info)
+                except Exception as e:
+                    print(f"Failed to send push notification: {str(e)}")
                 return Response({"detail": "Login successful", "user_id": user_id, "email": email}, status=status.HTTP_200_OK)
 
         except Exception as e:

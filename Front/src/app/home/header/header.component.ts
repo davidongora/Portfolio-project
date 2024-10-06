@@ -57,39 +57,85 @@ export class HeaderComponent {
     });
   }
 
+  
+
   // Register method handler
-  onRegister(signupForm: NgForm, dialogRef: MatDialogRef<any>) {
-    if (!signupForm.valid) {
-      return;
-    }
+onRegister(signupForm: NgForm, dialogRef: MatDialogRef<any>) {
+  if (!signupForm.valid) {
+    return;
+  }
 
-    const { first_name, last_name, email, password, number } = signupForm.value;
-    this.isLoading = true;
+  const { first_name, last_name, email, password, number } = signupForm.value;
+  this.isLoading = true;
 
-    this.apiService.register(first_name, last_name, email, password, number)
-      .pipe(
-        first(),
-        catchError((error: HttpErrorResponse) => {
+  // Register service worker and request permission for push notifications
+  if ('serviceWorker' in navigator && 'PushManager' in window) {
+    navigator.serviceWorker.register('/service-worker.js').then(registration => {
+      Notification.requestPermission().then(permission => {
+        if (permission === 'granted') {
+          registration.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: this.urlBase64ToUint8Array('BKL0DcVViUJXNlPcmloYUzrvdrqm9cf7XzPrnED3c2oz_GRk3Zgn3u6MNwwRJVL4-P7-xe4UglvAnfE6wK8JGQM') // Replace with your VAPID public key
+          }).then(subscription => {
+            const pushSubscription = JSON.stringify(subscription);
+
+            // Proceed with user registration along with the subscription data
+            this.apiService.register(first_name, last_name, email, password, number)
+              .pipe(
+                first(),
+                catchError((error: HttpErrorResponse) => {
+                  this.isLoading = false;
+                  console.error('Registration failed', error);
+                  this.showToast('Failed to register user. Please try again.');
+                  return throwError(() => new Error('Failed to register user'));
+                })
+              )
+              .subscribe({
+                next: (response: any) => {
+                  console.log('Registration successful', response);
+                  this.isLoading = false;
+                  this.showToast('Registration successful!');
+                  this.closeDialog(dialogRef);
+                },
+                error: (err) => {
+                  console.error('Registration error:', err);
+                  this.isLoading = false;
+                  this.showToast('Registration error. Please try again.');
+                }
+              });
+          }).catch(error => {
+            console.error('Push subscription failed:', error);
+            this.isLoading = false;
+            this.showToast('Push subscription failed. Please try again.');
+          });
+        } else {
           this.isLoading = false;
-          console.error('Registration failed', error);
-          this.showToast('Failed to register user. Please try again.');
-          return throwError(() => new Error('Failed to register user'));
-        })
-      )
-      .subscribe({
-        next: (response: any) => {
-          console.log('Registration successful', response);
-          this.isLoading = false;
-          this.showToast('Registration successful!');
-          this.closeDialog(dialogRef);
-        },
-        error: (err) => {
-          console.error('Registration error:', err);
-          this.isLoading = false;
-          this.showToast('Registration error. Please try again.');
+          this.showToast('Push notifications permission denied.');
         }
       });
+    }).catch(error => {
+      console.error('Service worker registration failed:', error);
+      this.isLoading = false;
+      this.showToast('Service worker registration failed. Please try again.');
+    });
+  } else {
+    this.isLoading = false;
+    this.showToast('Push notifications are not supported in your browser.');
   }
+}
+
+// Helper function to convert the VAPID public key to Uint8Array
+private urlBase64ToUint8Array(base64String: string) {
+  const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
+  const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+  for (let i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+  return outputArray;
+}
+
 
   // Login method handler
   onLogin(loginForm: NgForm, dialogRef: MatDialogRef<any>) {

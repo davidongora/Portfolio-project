@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-!-4&+j$v25vk$dss&2+30+qq*w4ixs7_5=(p6#(k_k!0+#u!kj
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["12.0.0.1", ".vercel.app", "now.sh"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", ".vercel.app", "now.sh"]
 
 # Application definition
 
@@ -130,6 +130,11 @@ EMAIL_HOST_PASSWORD = 'vapbexbbmyqfumdr '  # Your email password
 DEFAULT_FROM_EMAIL = 'ongoradavid5@gmail.com'  # Default sender address
 
 
+WEBPUSH_SETTINGS = {
+    "VAPID_PUBLIC_KEY": "BLddh6AzFLRWZgNqJRYpsCeDlH4NdaASMAU39iLcPb7K4BSGVbBfHd-3n2M_PVt-uKhQEy_UQSOLa-PrnlgUw4s",  
+    "VAPID_PRIVATE_KEY": "20lHoKRy0HCW5a3VczrcSRm8cvTG8088Gp39WZRcbhg", 
+    "VAPID_ADMIN_EMAIL": "ongoradavid5@gmail.com",  
+}
 
 
 # Password validation

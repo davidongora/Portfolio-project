@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // Components
 import { AppComponent } from './app.component';
+import { SwUpdate } from '@angular/service-worker';
 
 // Interceptors
 // import { ErrorInterceptor } from './core/helpers/error.interceptor';
@@ -58,4 +59,21 @@ import { AppComponent } from './app.component';
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
   // bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { 
+  constructor(private swUpdate: SwUpdate) {
+  }
+
+  ngOnInit() {
+
+      if (this.swUpdate.isEnabled) {
+
+          this.swUpdate.available.subscribe(() => {
+
+              if(confirm("New version available. Load New Version?")) {
+
+                  window.location.reload();
+              }
+          });
+      }        
+  }
+}
