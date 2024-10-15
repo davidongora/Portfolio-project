@@ -10,7 +10,25 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
+import { driver } from "driver.js";
+import "driver.js/dist/driver.css";
 
+const driverObj = driver({
+  showProgress: true,
+  animate: true,  
+  doneBtnText: 'Finish', 
+  nextBtnText: 'Next',  
+  prevBtnText: 'Previous',  
+
+  steps: [
+    // { element: '#title', popover: { title: 'FashionForAll', description: 'Description' } },
+    { element: '#orders', popover: { title: 'orders', description: 'Description' } },
+    { element: '#contact', popover: { title: 'contact', description: 'Description' } },
+    { element: '#title', popover: { title: 'FashionForAll', description: 'Description' } },
+  ]
+});
+
+driverObj.drive();
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -24,6 +42,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 })
 export class HeaderComponent {
   isLoading = false;
+
+  
 
   // Inject services using Angular's inject method for standalone components
   private apiService = inject(ApiService);
