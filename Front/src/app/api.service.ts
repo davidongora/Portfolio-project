@@ -10,6 +10,8 @@ import { map, catchError } from 'rxjs/operators';
 export class ApiService {
 
   private isLoadingSubject = new BehaviorSubject<boolean>(false);
+  public isLoading$: Observable<boolean> = this.isLoadingSubject.asObservable(); 
+
 
   constructor(private http: HttpClient, private endpointsService: EndpointsService) { }
 

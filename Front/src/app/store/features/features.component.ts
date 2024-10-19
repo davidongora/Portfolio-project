@@ -7,6 +7,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { NgFor, NgIf } from '@angular/common';
 import { FilterComponent } from '../filter/filter.component';
 // import { catchError, throwError } from 'rxjs';
+import { interval } from 'rxjs';
 
 
 @Component({
@@ -28,12 +29,39 @@ export class FeaturesComponent implements OnInit {
   constructor(private apiService: ApiService, public dialog: MatDialog) {}
 
   ngOnInit(): void {
+    this.apiService.isLoading$.subscribe(isLoading => {
+      this.isLoading = isLoading; 
+    });
+  
     this.productslist(); 
+
+    interval(3000000)
+      .subscribe(() => {
+        this.productslist(true);
+      })
   }
 
-  productslist = () => {
+  productslist = ( forceFetch =false) => {
     this.isLoading = true;
     console.log("Fetching products...");
+    const storedProducts = localStorage.getItem('products');
+
+    if (storedProducts) {
+      this.products = JSON.parse(storedProducts);
+      this.updatePagedProducts()
+      this.isLoading = false;
+      return;
+    }
+
+    if (!forceFetch) {
+      const storedProducts = localStorage.getItem('products');
+      if (storedProducts) {
+        this.products = JSON.parse(storedProducts);
+        this.updatePagedProducts();
+        this.isLoading = false;
+        return;
+      }
+    }
 
     this.apiService.getProducts()
       .pipe(
@@ -47,6 +75,7 @@ export class FeaturesComponent implements OnInit {
       .subscribe({
         next: (response: any) => {
           this.products = response;
+          localStorage.setItem('products', JSON.stringify(response))
           this.updatePagedProducts();
           this.isLoading = false;
         },
