@@ -50,7 +50,7 @@ urlpatterns = [
     path('api/cart/', include('cart.urls')),
     path('api/orders/', include('orders.urls')),
     path('api/order-items/', include('ordersItems.urls')),
-    # path('api/payments/', include('payments.urls')),
+    path('api/payments/', include('payments.urls')),
     path('api/product-filters/', include('productFilters.urls')),
     path('api/users/', include('users.urls')),
     path('api/wishlist/', include('wishlist.urls')),

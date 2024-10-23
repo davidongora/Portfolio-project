@@ -18,12 +18,39 @@ from django.http import JsonResponse
 import json
 from django.contrib.auth.hashers import check_password
 from rest_framework.permissions import IsAuthenticated
-
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 
 
 class CreateOrderView(APIView):
+    @swagger_auto_schema(
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'user_id': openapi.Schema(type=openapi.TYPE_STRING, description='Description of field1'),
+                # 'field2': openapi.Schema(type=openapi.TYPE_INTEGER, description='Description of field2'),
+            },
+            required=['user_id']
+        ),
+        responses={
+            200: openapi.Response(
+                description='Successful Response',
+                schema=openapi.Schema(
+                    type=openapi.TYPE_OBJECT,
+                    properties={
+                        'order_id': openapi.Schema(type=openapi.TYPE_STRING, description='ID of the created object'),
+                        # 'field1': openapi.Schema(type=openapi.TYPE_STRING, description='Description of field1'),
+                        # 'field2': openapi.Schema(type=openapi.TYPE_INTEGER, description='Description of field2'),
+                    }
+                )
+            ),
+            400: 'Bad Request'
+        }
+    )
+    
     def post(self, request):
         # Get user_id from the session
+        
         user_id = request.session.get('user_id')
 
         if not user_id:
@@ -118,6 +145,30 @@ class CreateOrderView(APIView):
 
 
 class ViewOrderDetailsView(APIView):
+    # @swagger_auto_schema(
+    #     request_body=openapi.Schema(
+    #         type=openapi.TYPE_OBJECT,
+    #         properties={
+    #             'field1': openapi.Schema(type=openapi.TYPE_STRING, description='Description of field1'),
+    #             'field2': openapi.Schema(type=openapi.TYPE_INTEGER, description='Description of field2'),
+    #         },
+    #         required=['field1', 'field2']
+    #     ),
+    #     responses={
+    #         200: openapi.Response(
+    #             description='Successful Response',
+    #             schema=openapi.Schema(
+    #                 type=openapi.TYPE_OBJECT,
+    #                 properties={
+    #                     'order_id': openapi.Schema(type=openapi.TYPE_STRING, description='ID of the created object'),
+    #                     # 'field1': openapi.Schema(type=openapi.TYPE_STRING, description='Description of field1'),
+    #                     # 'field2': openapi.Schema(type=openapi.TYPE_INTEGER, description='Description of field2'),
+    #                 }
+    #             )
+    #         ),
+    #         400: 'Bad Request'
+    #     }
+    # )
     def get(self, request):
         order_id = request.GET.get('order_id')
 
