@@ -12,6 +12,7 @@ import { LoginComponent } from './login/login.component';
 import { FaqsComponent } from './faqs/faqs.component';
 import { EmailsComponent } from './emails/emails.component';
 import { LandingComponent } from './landing/landing.component';
+import { BarComponent } from './bar/bar.component';
 
 const routes: Routes = [
   {
@@ -61,6 +62,10 @@ const routes: Routes = [
   {
     path: 'emails',
     component: EmailsComponent
+  },
+  {
+    path: 'bar',
+    component: BarComponent
   }
 ];
 
