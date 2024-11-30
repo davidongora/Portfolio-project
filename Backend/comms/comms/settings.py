@@ -27,9 +27,9 @@ from django.conf import settings
 SECRET_KEY = 'django-insecure-!-4&+j$v25vk$dss&2+30+qq*w4ixs7_5=(p6#(k_k!0+#u!kj'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", ".vercel.app", "now.sh"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", ".vercel.app", "now.sh", "185.240.51.244"]
 
 # Application definition
 
